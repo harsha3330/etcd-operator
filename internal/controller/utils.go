@@ -141,6 +141,9 @@ func createOrPatchStatefulSet(ctx context.Context, logger logr.Logger, ec *ecv1a
 	}
 
 	podSpec := corev1.PodSpec{
+		Affinity:     ec.Spec.PodTemplate.PodSpec.Affinity,
+		NodeSelector: ec.Spec.PodTemplate.PodSpec.NodeSelector,
+		Tolerations:  ec.Spec.PodTemplate.PodSpec.Tolerations,
 		Containers: []corev1.Container{
 			{
 				Name:    "etcd",
