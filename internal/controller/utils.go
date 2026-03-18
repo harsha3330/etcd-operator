@@ -141,9 +141,6 @@ func createOrPatchStatefulSet(ctx context.Context, logger logr.Logger, ec *ecv1a
 	}
 
 	podSpec := corev1.PodSpec{
-		Affinity:     ec.Spec.PodTemplate.Spec.Affinity,
-		NodeSelector: ec.Spec.PodTemplate.Spec.NodeSelector,
-		Tolerations:  ec.Spec.PodTemplate.Spec.Tolerations,
 		Containers: []corev1.Container{
 			{
 				Name:    "etcd",
@@ -218,6 +215,13 @@ func createOrPatchStatefulSet(ctx context.Context, logger logr.Logger, ec *ecv1a
 	podTemplateMetadata := metav1.ObjectMeta{
 		Labels:      make(map[string]string),
 		Annotations: make(map[string]string),
+	}
+
+	// Pod Scheduling specs
+	if ec.Spec.PodTemplate != nil && ec.Spec.PodTemplate.Spec != nil {
+		podSpec.Affinity = ec.Spec.PodTemplate.Spec.Affinity
+		podSpec.NodeSelector = ec.Spec.PodTemplate.Spec.NodeSelector
+		podSpec.Tolerations = ec.Spec.PodTemplate.Spec.Tolerations
 	}
 
 	// Apply custom metadata from PodTemplate if provided
