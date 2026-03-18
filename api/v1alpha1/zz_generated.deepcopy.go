@@ -286,8 +286,8 @@ func (in *PodTemplate) DeepCopyInto(out *PodTemplate) {
 		*out = new(PodMetadata)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.PodSpec != nil {
-		in, out := &in.PodSpec, &out.PodSpec
+	if in.Spec != nil {
+		in, out := &in.Spec, &out.Spec
 		*out = new(PodSpec)
 		(*in).DeepCopyInto(*out)
 	}
